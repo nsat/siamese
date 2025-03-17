@@ -78,6 +78,7 @@ set(INCLUDE_FILES
 set(SOURCE_FILES
     ${INCLUDE_FILES}
     gf256.cpp
+    gf256_arm64.s
     Logger.cpp
     PacketAllocator.cpp
     SiameseCommon.cpp
