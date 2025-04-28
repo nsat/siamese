@@ -9,7 +9,6 @@ project(siamese LANGUAGES C CXX)
 #set(CMAKE_VERBOSE_MAKEFILE ON)
 
 include(CheckIncludeFileCXX)
-CHECK_INCLUDE_FILE_CXX(arm_neon.h HAVE_ARM_NEON_H)
 
 ################################################################################
 # Build Settings
@@ -102,6 +101,10 @@ if(BUILD_TEST)
         tests/TestTools.h
         tests/unit_test.cpp
     )
+    set(BENCH_FILES
+        ${SOURCE_FILES}
+        tests/benchmark.cpp
+    )
 endif(BUILD_TEST)
 
 ################################################################################
@@ -120,6 +123,9 @@ INSTALL(TARGETS siamese
         PUBLIC_HEADER DESTINATION include
 )
 
+target_link_libraries(siamese atomic)
+target_compile_options(siamese PRIVATE -fno-builtin)
+
 target_include_directories(siamese PUBLIC 
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR})
 
@@ -135,5 +141,9 @@ if(BUILD_TEST)
         Threads::Threads
     )
     install(TARGETS unit_test DESTINATION bin)
+    add_executable(benchmark ${BENCH_FILES})
+    target_link_libraries(benchmark
+        Threads::Threads
+    )
+    install(TARGETS benchmark DESTINATION bin)
 endif(BUILD_TEST)
-
