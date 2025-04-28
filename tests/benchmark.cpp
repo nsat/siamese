@@ -1,8 +1,7 @@
 // mkdir -p build && cd build
 // rm -rf * && cmake .. && make -j5
-// c++ main.cpp build/libsiamese.a  -lpthread -static
-// time a.out
-// valgrind --tool=callgrind --callgrind-out-file=callgrind.out ./a.out
+// ./benchmark 2000 500000 5000
+// valgrind --tool=callgrind --callgrind-out-file=callgrind.out ./benchmark 2000 500000 5000
 // kcachegrind &
 
 #include <iostream>

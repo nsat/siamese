@@ -10,6 +10,8 @@ project(siamese LANGUAGES C CXX)
 
 include(CheckIncludeFileCXX)
 
+CHECK_INCLUDE_FILE_CXX(arm_neon.h HAVE_ARM_NEON_H)
+
 ################################################################################
 # Build Settings
 
@@ -122,9 +124,6 @@ INSTALL(TARGETS siamese
         ARCHIVE DESTINATION lib
         PUBLIC_HEADER DESTINATION include
 )
-
-target_link_libraries(siamese atomic)
-target_compile_options(siamese PRIVATE -fno-builtin)
 
 target_include_directories(siamese PUBLIC 
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR})
