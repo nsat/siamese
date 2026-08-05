@@ -46,9 +46,14 @@ else()
     set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 endif()
 
+option(SIAMESE_PORTABLE_X86 "Build with portable x86 baseline" ON)
+
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-march=native" COMPILER_SUPPORTS_MARCH_NATIVE)
-if(COMPILER_SUPPORTS_MARCH_NATIVE)
+
+if(SIAMESE_PORTABLE_X86)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=core2 -mtune=generic")
+elseif(COMPILER_SUPPORTS_MARCH_NATIVE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
 endif()
 
@@ -119,13 +124,13 @@ target_link_libraries(siamese
 )
 #install(TARGETS siamese DESTINATION lib)
 set_target_properties(siamese PROPERTIES PUBLIC_HEADER "gf256.h;Logger.h;PacketAllocator.h;SiameseCommon.h;SiameseDecoder.h;SiameseEncoder.h;siamese.h;SiameseSerializers.h;SiameseTools.h")
-INSTALL(TARGETS siamese 
+INSTALL(TARGETS siamese
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
         PUBLIC_HEADER DESTINATION include
 )
 
-target_include_directories(siamese PUBLIC 
+target_include_directories(siamese PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR})
 
 # Application (unit test)
