@@ -46,16 +46,7 @@ else()
     set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 endif()
 
-option(SIAMESE_PORTABLE_X86 "Build with portable x86 baseline" ON)
-
-include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("-march=native" COMPILER_SUPPORTS_MARCH_NATIVE)
-
-if(SIAMESE_PORTABLE_X86)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=core2 -mtune=generic")
-elseif(COMPILER_SUPPORTS_MARCH_NATIVE)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
-endif()
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=core2 -mtune=generic")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti -fno-exceptions -Os -Wall -Wextra -ffunction-sections -Wl,--gc-sections")
 
